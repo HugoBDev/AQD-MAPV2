@@ -1,7 +1,7 @@
 import "./project.page.scss"
 
 export interface ProjectPageModel {
-  adress: string;
+  address: string;
   city: string;
   district: string;
   imgIds: string[];
@@ -21,7 +21,7 @@ const ProjectPage = ({ project }: { project: ProjectPageModel }) => {
         <div className="close-button">X</div>
       </div>
       <div className="address">
-        <h2 id="address">{project.adress}</h2>
+        <h2 id="address">{project.address}</h2>
       </div>
       <div className="content">
         <div className="img-container">
