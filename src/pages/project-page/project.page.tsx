@@ -7,9 +7,10 @@ export interface ProjectPageModel {
   imgIds: string[];
   title: string;
   description: string;
+  location : number[]
 }
 
-function ProjectPage  ({ project }: { project: ProjectPageModel })  {
+function ProjectPage  ({ project }: { project: ProjectPageModel | undefined })  {
   return (
     <div id="project-page" className="show-project-page">
       <div className="header">
