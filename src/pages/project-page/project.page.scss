@@ -1,3 +1,11 @@
+$primary: #f8f2e8;
+$secondary: #fea347;
+$titleColor: #b06141;
+
+@mixin imgSize($width) {
+  height: calc($width * 15) / 10 + px;
+  max-width: $width + px;
+}
 #project-page {
     display: flex;
     flex-direction: column;
@@ -9,7 +17,7 @@
     gap: 1rem;
     z-index: 999999;
     overflow: hidden;
-    transition: left 500ms cubic-bezier(1,-0.13,.63,.83);
+    // transition: left 500ms cubic-bezier(1,-0.13,.63,.83);
   
     .header {
       display: flex;
@@ -34,7 +42,7 @@
   
     .content {
       display: flex;
-      gap: 1rem;
+      gap: 10rem;
   
       .img-container {
         @include imgSize(250);
@@ -85,13 +93,13 @@
       }
     }
   }
-  .hidden-popup{
+  .hidden-project-page{
     position: absolute;
     left: -1000%;
     top: 0;
   }
   
-  .show-popup{
+  .show-project-page{
     position: absolute;
     left: 0;
     top:0;

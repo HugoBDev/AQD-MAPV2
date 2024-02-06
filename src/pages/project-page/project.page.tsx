@@ -9,19 +9,19 @@ export interface ProjectPageModel {
   description: string;
 }
 
-const ProjectPage = ({ project }: { project: ProjectPageModel }) => {
+function ProjectPage  ({ project }: { project: ProjectPageModel })  {
   return (
-    <div id="project-page" className="hidden-project-page">
+    <div id="project-page" className="show-project-page">
       <div className="header">
         <div className="nav">
-          <p id="city">{project.city}</p>
+          <p id="city">{project?.city}</p>
           <span id="arrow">{">"}</span>
-          <p id="district">{project.district}</p>
+          <p id="district">{project?.district}</p>
         </div>
         <div className="close-button">X</div>
       </div>
       <div className="address">
-        <h2 id="address">{project.address}</h2>
+        <h2 id="address">{project?.address}</h2>
       </div>
       <div className="content">
         <div className="img-container">
@@ -33,10 +33,10 @@ const ProjectPage = ({ project }: { project: ProjectPageModel }) => {
         </div>
         <div className="text-container">
           <h3 id="title" className="title">
-            {project.title}
+            {project?.title} 
           </h3>
           <div className="divider"></div>
-          <p id="description">{project.description}</p>
+          <p id="description">{project?.description} </p>
         </div>
       </div>
     </div>
