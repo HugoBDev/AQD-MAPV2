@@ -11,8 +11,12 @@ import ProjectPage, { ProjectPageModel } from "../pages/project-page/project.pag
 
 
 const Map = () => {
+  function loadProject(location: LatLngTuple): ProjectPageModel | undefined {
+    return projects.find(project => project.location[0] === location[0] && project.location[1] === location[1]);
+  }
   const mapRef = useRef(null);
-  const projectPage = document.getElementById("project-page")
+  const [selectedProject, setSelectedProject] = useState<ProjectPageModel | undefined>(undefined);
+
   const amiensLocation: LatLngLiteral = {
     lat: 49.884195,
     lng: 2.299391,
@@ -22,13 +26,7 @@ const Map = () => {
   const [projects, setProjects] = useState<ProjectPageModel[]>([])
   const firebaseApi = new FireBaseAPI();
 
-  function loadProject(location : number[])  {
-    console.log(projects);
-    console.log(location);
-    const bla : ProjectPageModel = projects.filter(el => el.location === location)[0]
-    
-    return bla
-  }
+
   useEffect(() => {
     firebaseApi.getProjects().then((data) => {
       let locations: LatLngTuple[] = [];
@@ -54,7 +52,7 @@ const Map = () => {
     });
   }, []);
   
-  console.log(projects);
+
 
   return (
     <MapContainer
@@ -63,7 +61,7 @@ const Map = () => {
     ref={mapRef}
     style={{ height: "100vh", width: "100vw" }}
     >
-      {/* <ProjectPage /> */}
+      <ProjectPage project={selectedProject} />
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -74,9 +72,8 @@ const Map = () => {
           position={house}
           eventHandlers={{
             click: () => {
-              const test : number[] = house as number[]
-              
-              console.log(loadProject(test));
+              const project = loadProject(house);
+               setSelectedProject(project);
             },
           }}
           />
