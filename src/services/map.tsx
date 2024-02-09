@@ -11,6 +11,8 @@ import ProjectPage, { ProjectPageModel } from "../pages/project-page/project.pag
 
 
 const Map = () => {
+  
+
   function loadProject(location: LatLngTuple): ProjectPageModel | undefined {
     return projects.find(project => project.location[0] === location[0] && project.location[1] === location[1]);
   }
@@ -61,7 +63,7 @@ const Map = () => {
     ref={mapRef}
     style={{ height: "100vh", width: "100vw" }}
     >
-      <ProjectPage project={selectedProject} />
+      <ProjectPage project={selectedProject}  />
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -71,9 +73,12 @@ const Map = () => {
           key={index}
           position={house}
           eventHandlers={{
-            click: () => {
+            click: (click) => {
               const project = loadProject(house);
                setSelectedProject(project);
+               
+               
+              
             },
           }}
           />

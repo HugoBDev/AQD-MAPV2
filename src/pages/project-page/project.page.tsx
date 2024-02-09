@@ -1,4 +1,6 @@
-import "./project.page.scss"
+import gsap from "gsap";
+import "./project.page.scss";
+import React, { useRef } from "react";
 
 export interface ProjectPageModel {
   address: string;
@@ -7,34 +9,50 @@ export interface ProjectPageModel {
   imgIds: string[];
   title: string;
   description: string;
-  location : number[]
+  location: number[];
 }
 
-function ProjectPage  ({ project }: { project: ProjectPageModel | undefined })  {
+let projectPageRef: any;
+
+function closeProject() {
+  if (projectPageRef.current) {
+    const projectRefWidth: number = projectPageRef.current.clientWidth;
+    gsap.to("#project-page", { duration: 3, x: -projectRefWidth });
+  }
+}
+
+function openProject() {
+  if (projectPageRef.current) {
+    const projectRefWidth: number = projectPageRef.current.clientWidth;   
+    gsap.to("#project-page", { duration: 3, x: projectRefWidth });
+  }
+}
+
+function ProjectPage({ project }: { project: ProjectPageModel | undefined }) {
+  projectPageRef = useRef<HTMLDivElement>(null);
+  openProject()
   return (
-    <div id="project-page" className="show-project-page">
+    <div id="project-page" className="show-project-page" ref={projectPageRef}>
       <div className="header">
         <div className="nav">
           <p id="city">{project?.city}</p>
           <span id="arrow">{">"}</span>
           <p id="district">{project?.district}</p>
         </div>
-        <div className="close-button">X</div>
+        <div className="close-button" onClick={closeProject}>
+          X
+        </div>
       </div>
       <div className="address">
         <h2 id="address">{project?.address}</h2>
       </div>
       <div className="content">
         <div className="img-container">
-          <img
-            className="front-img"
-            src="https://firebasestorage.googleapis.com/v0/b/aqd-map-17674.appspot.com/o/1702419999915?alt=media&token=af2c17bd-1e9f-4e96-a8d7-5c438e96a713"
-            alt="image test"
-          />
+          <img />
         </div>
         <div className="text-container">
           <h3 id="title" className="title">
-            {project?.title} 
+            {project?.title}
           </h3>
           <div className="divider"></div>
           <p id="description">{project?.description} </p>
@@ -42,6 +60,6 @@ function ProjectPage  ({ project }: { project: ProjectPageModel | undefined })  
       </div>
     </div>
   );
-};
+}
 
 export default ProjectPage;
