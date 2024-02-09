@@ -1,6 +1,7 @@
 import gsap from "gsap";
 import "./project.page.scss";
 import React, { useRef } from "react";
+import { LeafletMouseEvent } from "leaflet";
 
 export interface ProjectPageModel {
   address: string;
@@ -17,22 +18,24 @@ let projectPageRef: any;
 function closeProject() {
   if (projectPageRef.current) {
     const projectRefWidth: number = projectPageRef.current.clientWidth;
-    gsap.to("#project-page", { duration: 3, x: -projectRefWidth });
+    gsap.to("#project-page", { duration: 1, x: -projectRefWidth });
   }
 }
 
 function openProject() {
   if (projectPageRef.current) {
     const projectRefWidth: number = projectPageRef.current.clientWidth;   
-    gsap.to("#project-page", { duration: 3, x: projectRefWidth });
+    gsap.to("#project-page", { duration: 1, x: projectRefWidth });
   }
 }
 
-function ProjectPage({ project }: { project: ProjectPageModel | undefined }) {
+function ProjectPage({ project, click  }: { project: ProjectPageModel | undefined, click : LeafletMouseEvent  }) {
   projectPageRef = useRef<HTMLDivElement>(null);
   openProject()
+  console.log(click);
+  
   return (
-    <div id="project-page" className="show-project-page" ref={projectPageRef}>
+    <div id="project-page"  ref={projectPageRef}>
       <div className="header">
         <div className="nav">
           <p id="city">{project?.city}</p>

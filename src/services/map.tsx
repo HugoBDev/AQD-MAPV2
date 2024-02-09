@@ -5,7 +5,7 @@ import {
   TileLayer,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { LatLngLiteral, LatLngTuple } from "leaflet";
+import { LatLngLiteral, LatLngTuple, LeafletMouseEvent } from "leaflet";
 import { FireBaseAPI } from "../api/firebase.api";
 import ProjectPage, { ProjectPageModel } from "../pages/project-page/project.page";
 
@@ -55,6 +55,7 @@ const Map = () => {
   }, []);
   
 
+let clickEvent : LeafletMouseEvent;
 
   return (
     <MapContainer
@@ -63,7 +64,7 @@ const Map = () => {
     ref={mapRef}
     style={{ height: "100vh", width: "100vw" }}
     >
-      <ProjectPage project={selectedProject}  />
+    <ProjectPage project={selectedProject} click={clickEvent} />
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -76,6 +77,11 @@ const Map = () => {
             click: (click) => {
               const project = loadProject(house);
                setSelectedProject(project);
+               clickEvent = click
+               console.log(clickEvent);
+               console.log("isclicked");
+               
+               
                
                
               

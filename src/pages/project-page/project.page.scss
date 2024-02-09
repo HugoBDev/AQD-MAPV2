@@ -7,6 +7,8 @@ $titleColor: #b06141;
   max-width: $width + px;
 }
 #project-page {
+    position: absolute;
+    left: 0;
     display: flex;
     flex-direction: column;
     max-width: 66.6%;
@@ -93,15 +95,5 @@ $titleColor: #b06141;
       }
     }
   }
-  .hidden-project-page{
-    position: absolute;
-    left: -1000%;
-    top: 0;
-  }
-  
-  .show-project-page{
-    position: absolute;
-    left: 0;
-    top:0;
-  }
+ 
   
