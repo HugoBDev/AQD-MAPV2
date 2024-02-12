@@ -26,6 +26,7 @@ const Map = () => {
   
   const [markers, setMarkers] = useState<LatLngTuple[]>([]);
   const [projects, setProjects] = useState<ProjectPageModel[]>([])
+  const [projectPageVisible, setProjectPageVisible] = useState<boolean>(true);
   const firebaseApi = new FireBaseAPI();
 
 
@@ -55,7 +56,7 @@ const Map = () => {
   }, []);
   
 
-let clickEvent : LeafletMouseEvent;
+
 
   return (
     <MapContainer
@@ -64,7 +65,7 @@ let clickEvent : LeafletMouseEvent;
     ref={mapRef}
     style={{ height: "100vh", width: "100vw" }}
     >
-    <ProjectPage project={selectedProject} click={clickEvent} />
+    <ProjectPage project={selectedProject} isVisible={projectPageVisible} setProjectPageVisible={setProjectPageVisible} />
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -74,18 +75,14 @@ let clickEvent : LeafletMouseEvent;
           key={index}
           position={house}
           eventHandlers={{
-            click: (click) => {
+            click: () => {
               const project = loadProject(house);
                setSelectedProject(project);
-               clickEvent = click
-               console.log(clickEvent);
-               console.log("isclicked");
                
-               
-               
-               
-              
-            },
+               setProjectPageVisible(!projectPageVisible)
+               console.log(projectPageVisible);
+             
+            },  
           }}
           />
           ))}
