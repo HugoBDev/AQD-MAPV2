@@ -1,8 +1,8 @@
 import gsap from "gsap";
 import "./project.page.scss";
 import React, { useRef, useState } from "react";
-import { LeafletMouseEvent } from "leaflet";
-
+import { LatLngTuple } from "leaflet";
+import SocialFollow from "../../components/socialMedia.component";
 
 export interface ProjectPageModel {
   address: string;
@@ -11,65 +11,70 @@ export interface ProjectPageModel {
   imgIds: string[];
   title: string;
   description: string;
-  location: number[];
+  location: LatLngTuple;
 }
 
-let projectPageRef: any;
-
+let projectPageRef: React.RefObject<HTMLDivElement>;
 
 function openProject() {
   if (projectPageRef.current) {
-    const projectRefWidth: number = projectPageRef.current.clientWidth;   
-    gsap.to("#project-page", { duration: 1, x: projectRefWidth });
+    const projectRefWidth: number = projectPageRef.current.clientWidth;
+    const screenWidth: number = window.innerWidth;
+    const finalXPosition: number = Math.min(0, screenWidth - projectRefWidth);
+    gsap.to("#project-page", { duration: 1, x: finalXPosition });
   }
 }
 
-function ProjectPage({ project, isVisible, setProjectPageVisible}: { project: ProjectPageModel | undefined, isVisible :any, setProjectPageVisible: any }) {
-  
+
+const ProjectPage: React.FC<{
+  project: ProjectPageModel | undefined;
+  isVisible: boolean;
+  setProjectPageVisible: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ project, isVisible, setProjectPageVisible }) => {
+  projectPageRef = useRef<HTMLDivElement>(null);
   function closeProject() {
     if (projectPageRef.current) {
       const projectRefWidth: number = projectPageRef.current.clientWidth;
-      gsap.to("#project-page", { duration: 1, x: -projectRefWidth })
-      setProjectPageVisible(false)
+      gsap.to("#project-page", { duration: 1, x: -projectRefWidth, onComplete: () => setProjectPageVisible(false) });
     }
   }
-  projectPageRef = useRef<HTMLDivElement>(null);
-  if(isVisible) 
-  return  
-  openProject()
- 
-    
-    return (
-      <div id="project-page"  ref={projectPageRef}>
-        <div className="header">
-          <div className="nav">
-            <p id="city">{project?.city}</p>
-            <span id="arrow">{">"}</span>
-            <p id="district">{project?.district}</p>
-          </div>
-          <div className="close-button" onClick={closeProject}>
-            X
-          </div>
+
+  if (isVisible) {
+    openProject();
+  }
+
+
+  
+  return (
+    <div id="project-page" ref={projectPageRef} style={{ display: isVisible ? "block" : "none" }}>
+      <div className="header">
+        <div className="nav">
+          <p id="city">{project?.city}</p>
+          <div id="arrow">{'>'}</div>
+          <div id="district">{project?.district}</div>
         </div>
-        <div className="address">
-          <h2 id="address">{project?.address}</h2>
-        </div>
-        <div className="content">
-          <div className="img-container">
-            <img />
-          </div>
-          <div className="text-container">
-            <h3 id="title" className="title">
-              {project?.title}
-            </h3>
-            <div className="divider"></div>
-            <p id="description">{project?.description} </p>
-          </div>
+        <div className="close-button" onClick={closeProject}>
+          X
         </div>
       </div>
-    );
-  }
-  
-
+      <div className="address">
+        <h2 id="address">{project?.address}</h2>
+      </div>
+      <div className="content">
+        <div className="img-container">
+          <img src={project?.imgIds[0]} alt="Project" />
+        </div>
+        <div className="text-container">
+          <h3 id="title" className="title">
+            {project?.title}
+          </h3>
+          <div className="divider"></div>
+          <p id="description">{project?.description}</p>
+        </div>
+      </div>
+        <SocialFollow/>
+    </div>
+  );
+};
 
 export default ProjectPage;
